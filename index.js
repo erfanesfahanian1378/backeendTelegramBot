@@ -128,12 +128,12 @@ app.post('/start', async (req, res) => {
 app.post('/chat', async (req, res) => {
     const userMessage = req.body.message;
     const  username = req.body.username;
-    const inappropriateWords = ['کص', 'کیر', 'تخم' , 'کون' , 'سکس' , 'سکسی' , 'جنسی', 'ممه' , 'کیری' , 'کوبص' , 'جنده', 'چوچول'];
+    const inappropriateWords = ['کص', 'کیر', 'تخم' , 'کون' , 'سکس' , 'سکسی' , 'جنسی', 'ممه' , 'کیری' , 'کوبص' , 'جنده', 'چوچول' , 'chatgpt' , 'chat gpt' , 'چت جی پی تی' ,  'چت جی'];
     console.log("Received message:", userMessage);
-    // if (/^[a-zA-Z]+$/.test(userMessage)) {
-    //     console.log("english");
-    //     return res.status(400).send({ error: 'فارسی رو پاس بدار رفیق.' });
-    // }
+    if (/[a-zA-Z]/.test(userMessage)) {
+        console.log("english detected");
+        return res.status(400).send({ error: 'فارسی رو پاس بدار رفیق.' });
+    }
     const containsInappropriateContent = inappropriateWords.some(word => userMessage.includes(word));
     if (containsInappropriateContent) {
         return res.status(400).send({ error: 'خیلی بی ادب شدیا اینا ممنوعه رعایت نکنی از امتیاز هات کم میشه حواست باشه.' });
@@ -146,7 +146,7 @@ app.post('/chat', async (req, res) => {
         // Call OpenAI Chat Completion API
         const chatGptResponse = await axios.post('https://api.openai.com/v1/chat/completions', {
             model: "gpt-3.5-turbo",
-            messages: [{ "role": "user", "content": userMessage }],
+            messages: [{ "role": "user", "content": userMessage + "نمره imdb و rotten tomato را هم بده و خلاصه از داستان ها هرکدوم بنویس برام "  + "پیشنهاد های فیلم یا سریال مشابه توضیح هایم را بهم معرفی کن لطفا"}],
             temperature: 0.7
         }, {
             headers: {
