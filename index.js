@@ -1,62 +1,3 @@
-// const express = require('express');
-// const axios = require('axios');
-//
-// // Initialize Express app
-// const app = express();
-// app.use(express.json());
-//
-// // Replace with your actual OpenAI API key
-// const OPENAI_API_KEY = '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';
-//
-// // Endpoint to process messages
-// app.post('/chat', async (req, res) => {
-//     const userMessage = req.body.message;
-//     console.log("Received message:", userMessage);
-//
-//     try {
-//         // Call OpenAI Chat Completion API
-//         const chatGptResponse = await axios.post('https://api.openai.com/v1/chat/completions', {
-//             model: "gpt-3.5-turbo",
-//             messages: [{ "role": "user", "content": userMessage }],
-//             temperature: 0.7
-//         }, {
-//             headers: {
-//                 'Authorization': `Bearer ${OPENAI_API_KEY}`,
-//                 'Content-Type': 'application/json'
-//             }
-//         });
-//
-//         // Send response back
-//         const responseMessage = chatGptResponse.data.choices[0].message.content;
-//         res.send(responseMessage);
-//     } catch (error) {
-//         console.error('Error:', error.message);
-//         if (error.response) {
-//             console.error('Response data:', error.response.data);
-//             console.error('Response status:', error.response.status);
-//             console.error('Response headers:', error.response.headers);
-//         } else if (error.request) {
-//             console.error('Request:', error.request);
-//         } else {
-//             console.error('Error:', error.message);
-//         }
-//         res.status(500).send('Error processing the message');
-//     }
-// });
-//
-//
-//
-//
-// app.post('/user-gender', async (req, res) => {
-//     // const userMessage = req.body.message;
-//     console.log(req.body);
-// });
-//
-// // Start the server
-// const PORT = 3000;
-// app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
-
-
 
 // Import required modules
 const express = require('express');
@@ -123,6 +64,36 @@ app.post('/start', async (req, res) => {
         res.status(500).send({ error: 'Internal Server Error' });
     }
 });
+
+
+
+app.post('/changeEnd', async (req, res) => {
+    const userMessage = req.body.message;
+    console.log("Received message:", userMessage);
+
+    try {
+        // Call OpenAI Chat Completion API
+        const chatGptResponse = await axios.post('https://api.openai.com/v1/chat/completions', {
+            model: "gpt-3.5-turbo",
+            messages: [{ "role": "user", "content": "لطفا پایان بندی فیلم یا سریال" + userMessage + "را عوض کن و یک پایان جدید برای آن تولید کن و سعی کن که سناریو های اخر پایان جدید را توضیف کنی و یک پایان مناسب برایش تولید کن و بهم بگو"}],
+            temperature: 0.7
+        }, {
+            headers: {
+                'Authorization': `Bearer ${OPENAI_API_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // Send response back to user
+        const responseMessage = chatGptResponse.data.choices[0].message.content;
+        console.log(responseMessage);
+        res.send(responseMessage);
+    } catch (error) {
+        console.error("Error in /addCharacter:", error);
+        res.status(500).send("An error occurred while processing your request.");
+    }
+});
+
 
 app.post('/addCharacter', async (req, res) => {
     const userMessage = req.body.message;
