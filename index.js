@@ -146,7 +146,7 @@ app.post('/chat', async (req, res) => {
         // Call OpenAI Chat Completion API
         const chatGptResponse = await axios.post('https://api.openai.com/v1/chat/completions', {
             model: "gpt-3.5-turbo",
-            messages: [{ "role": "user", "content": userMessage + "نمره imdb و rotten tomato را هم بده و خلاصه از داستان ها هرکدوم بنویس برام "  + "پیشنهاد های فیلم یا سریال مشابه توضیح هایم را بهم معرفی کن لطفا" + "اسم فیلم را هم به انگلیسی هم به فارسی بنویس"}],
+            messages: [{ "role": "user", "content": "فیلمم را بیاب" + userMessage + "نمره imdb و rotten tomato را هم بده و خلاصه از داستان ها هرکدوم بنویس برام "  + "پیشنهاد های فیلم یا سریال مشابه توضیح هایم را بهم معرفی کن لطفا" + "اسم فیلم را هم به انگلیسی هم به فارسی بنویس"}],
             temperature: 0.7
         }, {
             headers: {
