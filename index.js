@@ -124,6 +124,32 @@ app.post('/start', async (req, res) => {
     }
 });
 
+app.post('/addCharacter', async (req, res) => {
+    const userMessage = req.body.message;
+    console.log("Received message:", userMessage);
+
+    try {
+        // Call OpenAI Chat Completion API
+        const chatGptResponse = await axios.post('https://api.openai.com/v1/chat/completions', {
+            model: "gpt-3.5-turbo",
+            messages: [{ "role": "user", "content": "لطفا به فیلم یا سریال" + userMessage + "یک کاراکتر خیالی اضافه کن و اسم و شخصیتش و نقشش در داستان را بیان کن و توضیحش بده"  }],
+            temperature: 0.7
+        }, {
+            headers: {
+                'Authorization': `Bearer ${OPENAI_API_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // Send response back to user
+        const responseMessage = chatGptResponse.data.choices[0].message.content;
+        console.log(responseMessage);
+        res.send(responseMessage);
+    } catch (error) {
+        console.error("Error in /addCharacter:", error);
+        res.status(500).send("An error occurred while processing your request.");
+    }
+});
 
 app.post('/chat', async (req, res) => {
     const userMessage = req.body.message;
