@@ -132,7 +132,7 @@ app.post('/addCharacter', async (req, res) => {
         // Call OpenAI Chat Completion API
         const chatGptResponse = await axios.post('https://api.openai.com/v1/chat/completions', {
             model: "gpt-3.5-turbo",
-            messages: [{ "role": "user", "content": "لطفا به فیلم یا سریال" + userMessage + "یک کاراکتر خیالی اضافه کن و اسم و شخصیتش و نقشش در داستان را بیان کن و توضیحش بده"  }],
+            messages: [{ "role": "user", "content": "لطفا به فیلم یا سریال" + userMessage + "یک کاراکتر خیالی اضافه کن و اسم و شخصیتش و نقشش در داستان را بیان کن و توضیحش بده و سعی کن که این کاراکتر خیالی که به داستان اضافه میکنی نقش عمیقی در داستان داشته باشد و صرفا یک کاراکتر ساده نباشد"  }],
             temperature: 0.7
         }, {
             headers: {
