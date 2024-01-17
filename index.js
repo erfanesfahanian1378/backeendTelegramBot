@@ -1,26 +1,18 @@
 // Import required modules
 const express = require('express');
 const {Sequelize, DataTypes} = require('sequelize');
-const { Configuration, OpenAIApi } = require("openai");
 const axios = require('axios');
 const OPENAI_API_KEY = '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';
 // Initialize Express app
 const app = express();
 app.use(express.json());
-// const configuration = new Configuration({
-//     apiKey: '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', // Make sure to set your API key in the environment variables
-// });
+
 // Initialize Sequelize to connect to your PostgreSQL database
 // Replace 'your_database', 'your_username', and 'your_password' with your actual database details
 const sequelize = new Sequelize('telegram2', 'erfan', '16day1378', {
     host: 'localhost',
     dialect: 'postgres'
 });
-
-const openai = new OpenAIApi({
-    apiKey : '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'
-});
-
 
 // Define User model
 const User = sequelize.define('User', {
@@ -106,19 +98,23 @@ app.post('/changeEnd', async (req, res) => {
 app.post('/gpt4', async (req, res) => {
     const userMessage = req.body.message;
     console.log("Received message:", userMessage);
-
     try {
-        // Make a request to the GPT-4 model
-        const chatGptResponse = await openai.createChatCompletion({
-            model: "gpt-4-model-identifier", // Replace with the actual GPT-4 model identifier
+        const chatGptResponse = await axios.post('https://api.openai.com/v1/chat/completions', {
+            model: "gpt-4",  // Replace with the actual GPT-4 model identifier when confirmed
             messages: [{
-                role: "user",
-                content: userMessage
+                "role": "user",
+                "content": userMessage,
+                "stream" :  true
             }],
             temperature: 0.7
+        }, {
+            headers: {
+                'Authorization': `Bearer ${OPENAI_API_KEY}`,
+                'Content-Type': 'application/json'
+            }
         });
 
-        // Extract and send the response message back to the user
+// Send response back to user
         const responseMessage = chatGptResponse.data.choices[0].message.content;
         console.log(responseMessage);
         res.send(responseMessage);
@@ -126,6 +122,7 @@ app.post('/gpt4', async (req, res) => {
         console.error("Error in /gpt4:", error);
         res.status(500).send("An error occurred while processing your request.");
     }
+
 });
 
 
