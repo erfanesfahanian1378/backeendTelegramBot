@@ -100,7 +100,7 @@ app.post('/gpt4', async (req, res) => {
     console.log("Received message:", userMessage);
     try {
         const chatGptResponse = await axios.post('https://api.openai.com/v1/chat/completions', {
-            model: "gpt-4",  // Replace with the actual GPT-4 model identifier when confirmed
+            model: "gpt-4-1106-preview",  // Replace with the actual GPT-4 model identifier when confirmed
             messages: [{
                 "role": "user",
                 "content": userMessage
@@ -118,7 +118,7 @@ app.post('/gpt4', async (req, res) => {
         console.log(responseMessage);
         res.send(responseMessage);
     } catch (error) {
-        console.error("Error in /addCharacter:", error);
+        console.error("Error in /gpt4:", error);
         res.status(500).send("An error occurred while processing your request.");
     }
 
