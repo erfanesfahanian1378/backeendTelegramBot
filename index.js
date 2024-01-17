@@ -103,7 +103,8 @@ app.post('/gpt4', async (req, res) => {
             model: "gpt-4-0314",  // Replace with the actual GPT-4 model identifier when confirmed
             messages: [{
                 "role": "user",
-                "content": userMessage
+                "content": userMessage,
+                stream :  true
             }],
             temperature: 0.7
         }, {
