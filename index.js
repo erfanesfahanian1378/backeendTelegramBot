@@ -100,11 +100,11 @@ app.post('/gpt4', async (req, res) => {
     console.log("Received message:", userMessage);
     try {
         const chatGptResponse = await axios.post('https://api.openai.com/v1/chat/completions', {
-            model: "gpt-4-0314",  // Replace with the actual GPT-4 model identifier when confirmed
+            model: "gpt-4",  // Replace with the actual GPT-4 model identifier when confirmed
             messages: [{
                 "role": "user",
                 "content": userMessage,
-                stream :  true
+                "stream" :  true
             }],
             temperature: 0.7
         }, {
